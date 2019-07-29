@@ -53,7 +53,7 @@ int operacionHash(char *palabra,int tamHash){
 }
 
 int letraAnum(char letra){
-    if(letra == 'ñ'){
+    if(letra == 164){
         return 14;
     }
     if(letra == 'o'){
@@ -108,7 +108,7 @@ Nodo *crearNodo(Nodo *tablaHash[],char *palabra,int posicion){
     tablaHash[posicion]->palabra = (char*)malloc(sizeof(char)*largo+1);
     strcpy(tablaHash[posicion]->palabra,palabra);
 
-    return (tablaHash);
+    return (*tablaHash);
 }
 
 void insertarPalabra(Nodo *tablaHash[],char *palabra,int tamTabla){
