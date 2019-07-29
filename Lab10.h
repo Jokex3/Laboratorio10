@@ -28,6 +28,16 @@ typedef struct Tnodo{
     int totalDePalabras;
 }Nodo;
 
+int letraAnum(char letra);
+int operacionHash(char *palabra,int tamHash);
+int operacionHash2(char *palabra,int tamHash);
+void iniciarTabla(Nodo *tablaHash[],int tamTabla);
+int cantidadDePalabrasArchivo(char *nombreArchivo);
+Nodo *crearNodo(Nodo *tablaHash[],char *palabra,int posicion);
+void insertarPalabra(Nodo *tablaHash[],char *palabra,int tamTabla);
+int leerArchivo(Nodo* tablaHash[],char *nombre, int tamTabla);
+int creaTablaHash(char *nombreArchivo,int porcentajeDeUso);
+
 int operacionHash(char *palabra,int tamHash){
     if(palabra == NULL){
         return -1;
@@ -69,7 +79,7 @@ int operacionHash2(char *palabra,int tamHash){
 
 void iniciarTabla(Nodo *tablaHash[],int tamTabla){
     for(int cont=0; cont<tamTabla; cont++){
-        tablaHash[cont] = 0;
+        tablaHash[cont]->palabra = NULL;
     }
 }
 
@@ -93,9 +103,23 @@ int cantidadDePalabrasArchivo(char *nombreArchivo){
     return contador;
 }
 
+Nodo *crearNodo(Nodo *tablaHash[],char *palabra,int posicion){
+    int largo = strlen(palabra);
+    tablaHash[posicion]->palabra = (char*)malloc(sizeof(char)*largo+1);
+    strcpy(tablaHash[posicion]->palabra,palabra);
+
+    return (tablaHash);
+}
+
 void insertarPalabra(Nodo *tablaHash[],char *palabra,int tamTabla){
-    int resultado = operacionHash(palabra);
-    int resultado2 = operacionHash2(palabra);
+    int resultado = operacionHash(palabra,tamTabla);
+    int resultado2 = operacionHash2(palabra,tamTabla);
+
+    if(tablaHash[resultado]->palabra == NULL){
+        crearNodo(tablaHash,palabra,resultado);   
+    }else{
+        crearNodo(tablaHash,palabra,resultado2);
+    }
 }
 
 int leerArchivo(Nodo* tablaHash[],char *nombre, int tamTabla){
